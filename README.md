@@ -393,7 +393,7 @@ Candidate pool and job description provided directly by Redrob AI / Hack2skill a
 
 ### Nitanshu Tak
 **B.Tech CSE (Cloud Computing & Virtualization Technology) · UPES Dehradun**
-SDE @ SapMen C. · Founder, MediFlow AI
+SDE @ SapMen C.
 
 *Contributions: Semantic scoring engine · behavioral signal weighting · score fusion logic · explainability engine · system architecture · sandbox deployment*
 
@@ -404,6 +404,9 @@ SDE @ SapMen C. · Founder, MediFlow AI
 ### Swati Dubey
 
 *Contributions: JD requirement extraction · structural disqualifier engine · honeypot and anomaly detection · feature engineering across the full candidate pool*
+
+
+[![GitHub](https://img.shields.io/badge/GitHub-swaskiee-181717?style=flat-square&logo=github)](https://github.com/swaskiee)
 
 ---
 
