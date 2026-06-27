@@ -1,7 +1,7 @@
 <div align="center">
 
 <a href="https://github.com/swaskiee/Prism-AI-Hiring-Intelligence-Platform" target="_blank">
-  <img src="./prism-logo.png" alt="Prism Logo" width="320" height="320"/>
+  <img src="prism-logo.png" alt="Prism Logo" width="320" height="320"/>
 </a>
 
 <p>
