@@ -63,23 +63,41 @@ def load_candidates(path: str) -> list[dict]:
       official 50-row test fixture used by all five layer modules' own
       __main__ blocks).
 
-    Format is auto-detected from the first non-whitespace character, so
-    this script works unmodified against either the real submission file
-    or the test fixture during development.
+    Format is auto-detected by peeking at the first non-whitespace
+    character only (not by reading the whole file), then the JSONL case
+    is streamed line-by-line rather than loaded into one large string
+    first. The original version called f.read() to grab the entire file
+    as a single string before splitting it into lines — harmless on a
+    small file, but on the real 465MB candidates.jsonl that briefly holds
+    the whole file as one giant string IN ADDITION to the ~100,000 parsed
+    dicts that follow, which is enough peak memory pressure to raise
+    MemoryError on machines with limited free RAM. Streaming avoids ever
+    holding the raw file content in memory at all.
     """
     with open(path, "r", encoding="utf-8") as f:
-        content = f.read()
+        first_char = ""
+        while True:
+            ch = f.read(1)
+            if not ch:
+                break
+            if not ch.isspace():
+                first_char = ch
+                break
 
-    stripped = content.lstrip()
-    if stripped.startswith("["):
-        return json.loads(content)
+        if first_char == "[":
+            # Pretty-printed JSON array fixture (e.g. sample_candidates.json)
+            # — small file, safe to read and parse as a whole.
+            f.seek(0)
+            return json.load(f)
 
-    candidates = []
-    for line in content.splitlines():
-        line = line.strip()
-        if line:
-            candidates.append(json.loads(line))
-    return candidates
+        # JSONL: stream line-by-line, never holding the full file as one string.
+        f.seek(0)
+        candidates = []
+        for line in f:
+            line = line.strip()
+            if line:
+                candidates.append(json.loads(line))
+        return candidates
 
 
 def run_pipeline(candidates_path: str, out_path: str, top_n: int = 100) -> None:
