@@ -158,6 +158,16 @@ Prism is a five-layer hybrid ranking engine that takes Redrob's 100,000-candidat
 
 ---
 
+## The Dashboard — Making the Ranking Explorable, Not Just Gradable
+
+`rank.py` and `hyperion_submission.csv` are what get graded — a CLI script and a CSV is the correct, sandbox-compatible artifact for Stage 3. But it isn't something a recruiter at Redrob would ever actually open and use, and a flat CSV makes the explainability this system is built around harder to *see* than it should be.
+
+**`dashboard/index.html`** is a single-file, no-backend interactive viewer over the exact same validated output — the real top-100, the real scores, the real reasoning — built so a non-technical reviewer can search, filter, and drill into *why* each candidate ranked where they did, live, instead of reading 100 rows of a CSV. It changes nothing about how candidates are scored; it's a presentation layer on top of work that's already been verified.
+
+Open it directly in any browser (`dashboard/index.html`, zero install, zero server) or host it for free on GitHub Pages / Vercel. See `dashboard/DASHBOARD.md` for what it shows, how it's built, and how to regenerate it if the underlying pipeline changes.
+
+---
+
 ## Why This Architecture, Specifically
 
 Every design choice below maps to a specific constraint or trap in Redrob's own challenge spec — none of it is incidental.
@@ -285,6 +295,11 @@ Prism-AI-Hiring-Intelligence-Platform/
 │   ├── score_fusion.py              fuse_and_rank() + assign_ranks() — official tie-break logic
 │   └── reasoning_generator.py       generate_reasoning_for_ranking() — grounded explanations
 │
+├── dashboard/                       Recruiter-facing dashboard — Nitanshu Tak
+│   ├── index.html                   Single-file interactive viewer over the real top-100 output
+│   └── DASHBOARD.md                 What it is, how to regenerate it, honest scope notes
+│
+├── export_dashboard_data.py         Generates the dashboard's per-candidate breakdown JSON
 ├── rank.py                          Single pipeline entrypoint (see Local Setup below)
 ├── hyperion_submission.csv          Final top-100 ranked output — validated, ready to submit
 ├── prism-logo.png
@@ -487,7 +502,20 @@ SDE @ SapMen C. · Founder, MediFlow AI
 
 ---
 
-## Hackathon Context
+## Beyond This Challenge — Why This Generalizes
+
+Redrob's own brief for this hackathon asks for something India's hiring ecosystem can actually use, not just a one-off scoring script for one JD. Prism's architecture is built so that's a realistic claim, not a tagline:
+
+- **Layer 1 is the only JD-specific code.** Swap in a different job description, and Layers 2 through 5 — semantic scoring, behavioral trust, structural rules, honeypot detection — run unchanged. Re-running the full pipeline against a new role is a new `get_jd_requirements()` call, not a rewrite.
+- **The structural disqualifier and honeypot logic are role-agnostic by construction.** Title-mismatch detection, consulting-only career patterns, job-hop detection, and the two confirmed honeypot mechanisms (tenure/date contradictions, impossible skill-proficiency claims) are checks about *data integrity and career-pattern sanity* — not specific to "Senior AI Engineer." Any company ranking candidates against any technical role inherits these checks directly.
+- **Zero-cost, zero-dependency-risk by design.** No paid API, no GPU, no hosted model — the entire pipeline runs on a laptop CPU in line with the same 76-second, 3GB footprint measured here. That's not a hackathon nicety; it's what makes this realistically deployable by a smaller company or a college placement cell with no ML infrastructure budget, not just a well-funded platform like Redrob.
+- **The dashboard is a template, not a one-off.** Point `export_dashboard_data.py` at a different ranking run and the same interactive viewer works for a different JD, a different candidate pool, a different team.
+
+This is an honest scoping claim, not an overstatement: Prism is a reusable *ranking methodology and toolkit* for any structured candidate-to-role matching problem, demonstrated end-to-end on Redrob's specific challenge — not a Redrob-specific product that happens to be open source.
+
+---
+
+
 
 **India Runs · Hack2skill × Redrob AI**
 Track 1 — The Data & AI Challenge: Intelligent Candidate Discovery
