@@ -1,7 +1,7 @@
 <div align="center">
 
 <a href="https://github.com/swaskiee/Prism-AI-Hiring-Intelligence-Platform" target="_blank">
-  <img src="prism-logo.png" alt="Prism Logo" width="320" height="320"/>
+  <img src="./prism-logo.png" alt="Prism Logo" width="320" height="320"/>
 </a>
 
 <p>
@@ -13,14 +13,15 @@
 <p>
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
   <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white">
-  <img src="https://img.shields.io/badge/Sentence--Transformers-FF6F00?style=for-the-badge">
   <img src="https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white">
+  <img src="https://img.shields.io/badge/TF--IDF%20%2B%20SVD-LSA-FF6F00?style=for-the-badge">
 </p>
 
 <p>
+  <img src="https://img.shields.io/badge/Runtime-100s%20%2F%20100K%20candidates-success?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Peak%20Memory-~3GB-success?style=for-the-badge">
   <img src="https://img.shields.io/badge/Compute-CPU%20Only-success?style=for-the-badge">
   <img src="https://img.shields.io/badge/Network-Disabled%20at%20Inference-success?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Runtime-%3C5min%2F100K%20candidates-blue?style=for-the-badge">
   <img src="https://img.shields.io/badge/Cost-₹0-brightgreen?style=for-the-badge">
 </p>
 
@@ -33,21 +34,20 @@
 
 *Built for Redrob AI's Intelligent Candidate Discovery & Ranking Challenge*
 
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
-[![sentence-transformers](https://img.shields.io/badge/sentence--transformers-MiniLM--L6-FF6F00?style=flat-square)](https://www.sbert.net/)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)](https://scikit-learn.org)
-[![Pandas](https://img.shields.io/badge/Pandas-2.x-150458?style=flat-square&logo=pandas&logoColor=white)](https://pandas.pydata.org)
+[![Python](https://img.shields.io/badge/Python-3.12%2F3.13-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.x-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)](https://scikit-learn.org)
+[![Pandas](https://img.shields.io/badge/Pandas-2.x%2F3.x-150458?style=flat-square&logo=pandas&logoColor=white)](https://pandas.pydata.org)
+[![NumPy](https://img.shields.io/badge/NumPy-2.x-013243?style=flat-square&logo=numpy&logoColor=white)](https://numpy.org)
 [![License](https://img.shields.io/badge/License-MIT-97BC62?style=flat-square)](LICENSE)
 
 ---
 
 *Built for the **India Runs Hackathon** by Hack2skill × Redrob AI* *Track 1 — The Data & AI Challenge: Intelligent Candidate Discovery*
-*Submission window closes **2 July 2026***
 
 ---
 
-### **Team Hyperion**
-* **Nitanshu Tak** — Semantic Scoring, Behavioral Signal Weighting, Score Fusion, Explainability Engine, System Architecture
+### **Authors & Contributors**
+* **Nitanshu Tak** — Semantic Scoring, Behavioral Signal Weighting, Score Fusion, Explainability Engine, Pipeline Architecture & Integration, Recruiter Dashboard
 * **Swati Dubey** — JD Requirement Extraction, Structural Disqualifier Engine, Honeypot & Anomaly Detection
 
 </div>
@@ -56,33 +56,31 @@
 
 ## The Problem
 
-Redrob AI's recruiters search a pool of hundreds of thousands of candidate profiles for every open role. Traditional keyword-based filtering looks for surface matches — does the skills list contain the right buzzwords — and as a result it systematically fails in two opposite directions at once:
+Redrob AI's recruiters search a pool of hundreds of thousands of candidate profiles for every open role. Keyword-based filtering looks for surface matches between a skills list and a job description, and as a result fails in two opposite directions at once.
 
-**It misses good candidates.** A candidate who built a production recommendation system at a product company, but whose profile never happens to use the word "RAG" or "Pinecone," gets filtered out by a keyword scan even though their actual engineering experience is a strong match.
+**It misses good candidates.** Someone who built a production recommendation system at a real product company, but whose profile never happens to contain the word "RAG" or "Pinecone," gets filtered out by a keyword scan even though their actual engineering substance is a strong match.
 
-**It promotes bad candidates.** A candidate whose skills section lists every AI buzzword in existence, but whose actual job title is "Marketing Manager" and who has never shipped a production system, scores artificially high on keyword density while being a fundamentally wrong fit.
+**It promotes bad candidates.** Someone whose skills section lists every AI buzzword in existence, but whose actual job title and career history have nothing to do with engineering, scores artificially high on keyword density alone.
 
-Redrob's own job description for this exact role states it directly: *the right answer is not "find candidates whose skills section contains the most AI keywords."* That sentence is the design brief for this entire project.
-
-**Prism is built to close that gap** — to rank candidates the way an experienced technical recruiter actually would: by reading career history for substance, checking behavioral signals for real availability, and refusing to be fooled by keyword density in either direction.
+Redrob's own job description for this exact role states the trap directly: *the right answer is not "find candidates whose skills section contains the most AI keywords."* Prism is built specifically to close that gap — to rank the way an experienced technical recruiter actually would.
 
 ---
 
 ## What Prism Does
 
-Prism is a five-layer hybrid ranking engine that takes Redrob's 100,000-candidate pool and a single job description, and produces a ranked shortlist of the top 100 best-fit candidates — each with a specific, evidence-based explanation for its rank.
+Prism is a five-layer hybrid ranking engine that takes Redrob's 100,000-candidate pool and the Senior AI Engineer job description, and produces a ranked top-100 shortlist — each entry with a specific, evidence-grounded explanation for its rank.
 
-**It reads the JD, not just the keywords in it.** The job description is decomposed into structured must-haves, nice-to-haves, hard disqualifiers, and an explicit "ideal candidate" profile — capturing not just what skills are named, but what Redrob said they explicitly do *not* want (title-chasers, framework tourists, pure-research backgrounds, consulting-only careers with no product experience).
+**It reads the JD, not just its keywords.** The job description is decomposed into structured must-haves, nice-to-haves, hard disqualifiers (with their exceptions), and an explicit "ideal candidate" profile.
 
-**It scores meaning, not vocabulary.** A local sentence-transformer embedding model compares the *semantics* of a candidate's career history against the JD's actual requirements — so a candidate who clearly did the work without using the exact trendy terminology still scores correctly.
+**It scores meaning, not vocabulary.** A locally-trained latent semantic model compares the substance of a candidate's career history against the JD's actual requirements — a candidate who clearly did the work without using trendy terminology still scores correctly.
 
-**It applies the same structural judgment a senior recruiter would.** A rule-based disqualifier layer independently checks title sanity, consulting-only career patterns (with the product-company exception Redrob explicitly carved out), job-hopping/title-chasing patterns, and industry mismatches — catching exactly the keyword-stuffer trap that pure semantic similarity cannot.
+**It applies the structural judgment a senior recruiter would.** An independent rule-based layer checks title sanity, consulting-only career patterns (with Redrob's own explicit exception correctly applied), job-hopping patterns, and domain mismatches — catching exactly what semantic similarity alone would miss.
 
-**It treats "available" as part of "qualified."** Behavioral signals — recruiter response rate, login recency, interview completion rate, open-to-work status — are applied as a multiplier on top of skill-fit, because a perfect-on-paper candidate who has gone silent for six months is not, for hiring purposes, actually a top candidate.
+**It treats "available" as part of "qualified."** Behavioral signals — recruiter response rate, login recency, interview completion rate, open-to-work status — multiply the skill-fit score, so a perfect-on-paper candidate who has gone quiet for months is ranked accordingly.
 
-**It refuses to be fooled by impossible data.** An anomaly-detection layer scans every profile for internal contradictions — "expert" proficiency claimed with near-zero time-in-skill, experience duration exceeding company age — and hard-excludes these honeypot profiles before they can ever reach the top 100, regardless of how well they'd otherwise score.
+**It refuses to be fooled by impossible data.** An anomaly layer scans every profile for internal contradictions and hard-excludes confirmed honeypots before they can ever reach the top 100.
 
-**Every rank comes with a reason, generated from real numbers.** No templated language, no boilerplate — each of the top 100 entries gets a 1-2 sentence justification built directly from that candidate's actual computed sub-scores, named skills, and signal values.
+**Every rank comes with a reason, generated from real numbers.** No templates, no LLM call, no boilerplate — each top-100 entry's justification is built directly from that candidate's own computed sub-scores and profile fields.
 
 ---
 
@@ -91,160 +89,169 @@ Prism is a five-layer hybrid ranking engine that takes Redrob's 100,000-candidat
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
 │                         INPUT LAYER                                  │
-│                                                                        │
 │   candidates.jsonl (100,000 profiles)      job_description.md        │
-│   23 redrob_signals per candidate          Senior AI Engineer role   │
 └────────────────────────────┬───────────────────────────────────────────┘
                              │
                              ▼
 ┌──────────────────────────────────────────────────────────────────────┐
-│                  LAYER 1 — JD REQUIREMENT EXTRACTION                  │
-│                          Swati Dubey                                   │
-│                                                                        │
-│   Unstructured JD text  →  structured requirement object              │
-│   must_have[] · nice_to_have[] · hard_disqualifiers[]                 │
-│   experience_band · location_preference · ideal_profile_notes         │
+│             LAYER 1 — JD REQUIREMENT EXTRACTION  ·  Swati Dubey       │
+│   Unstructured JD text → structured requirement object                │
+│   must_have[4] · nice_to_have[5] · hard_disqualifiers[8]              │
+│   experience_band · location_preference · consulting_firms[]          │
 └────────────────────────────┬───────────────────────────────────────────┘
                              │
                 ┌────────────┴────────────┐
                 ▼                         ▼
 ┌─────────────────────────────┐ ┌─────────────────────────────────────┐
-│   LAYER 2 — SEMANTIC FIT     │ │  LAYER 3 — STRUCTURAL DISQUALIFIER   │
+│ LAYER 2 — SEMANTIC FIT      │ │ LAYER 3 — STRUCTURAL DISQUALIFIER     │
 │        Nitanshu Tak           │ │            Swati Dubey                │
-│                               │ │                                       │
-│  sentence-transformers        │ │  Title sanity check                  │
-│  (all-MiniLM-L6-v2, local)   │ │  Consulting-only career detector     │
-│  JD requirements ↔ candidate │ │  Title-chaser / job-hop detector     │
-│  career_history embeddings    │ │  Stale-architect detector            │
-│  Cosine similarity score      │ │  CV/speech/robotics-without-NLP flag │
+│ TF-IDF + Truncated SVD (LSA) │ │ Title sanity · consulting-only       │
+│ JD requirements ↔ career text │ │ job-hop · stale-architect · domain    │
+│ Cosine similarity, weighted   │ │ 14,883 / 100,000 candidates flagged   │
 └──────────────┬────────────────┘ └───────────────────┬───────────────────┘
                │                                       │
                ▼                                       ▼
 ┌─────────────────────────────┐ ┌─────────────────────────────────────┐
-│  LAYER 4 — BEHAVIORAL TRUST  │ │   LAYER 5 — HONEYPOT & ANOMALY       │
-│       MULTIPLIER              │ │            DETECTION                  │
-│        Nitanshu Tak           │ │            Swati Dubey                │
-│                               │ │                                       │
-│  recruiter_response_rate      │ │  Impossible-tenure detection         │
-│  last_active_date recency     │ │  Impossible-proficiency detection    │
-│  interview_completion_rate    │ │  Internal date/duration contradiction │
-│  open_to_work_flag            │ │  Hard exclusion gate (not a penalty) │
+│ LAYER 4 — BEHAVIORAL TRUST  │ │ LAYER 5 — HONEYPOT & ANOMALY         │
+│       Nitanshu Tak            │ │           Swati Dubey                 │
+│ response rate · recency      │ │ Impossible tenure · zero-duration    │
+│ interview completion          │ │ "expert" skills                       │
+│ Multiplicative, bounded       │ │ HARD exclusion gate, not a penalty    │
+│ [0.25, 1.0]                   │ │ 54 / 100,000 honeypots detected       │
 └──────────────┬────────────────┘ └───────────────────┬───────────────────┘
                │                                       │
                └───────────────────┬───────────────────┘
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────┐
-│                    SCORE FUSION & RANKING                            │
-│                          Nitanshu Tak                                   │
-│                                                                        │
-│   final_score = f(semantic_fit, disqualifier_penalty,                │
-│                    trust_multiplier, honeypot_gate)                  │
-│   Honeypots hard-excluded → remaining candidates sorted → top 100    │
+│            SCORE FUSION & RANKING  ·  Nitanshu Tak                    │
+│   final_score = semantic_fit_score × trust_multiplier                │
+│                  × (1 − disqualifier_penalty)                        │
+│   Honeypots hard-excluded → sorted → top 100, official tie-break     │
 └────────────────────────────┬───────────────────────────────────────────┘
                              │
                              ▼
 ┌──────────────────────────────────────────────────────────────────────┐
-│                    EXPLAINABILITY ENGINE                              │
-│                          Nitanshu Tak                                   │
-│                                                                        │
+│           EXPLAINABILITY ENGINE  ·  Nitanshu Tak                      │
 │   Per-candidate reasoning generated from real computed sub-scores    │
-│   No templates · no hallucinated claims · grounded in actual profile │
+│   No templates · no LLM call · no hallucination risk by construction │
 └────────────────────────────┬───────────────────────────────────────────┘
                              │
                              ▼
-                  submission.csv (top 100, ranked)
+              hyperion_submission.csv (top 100, ranked)
+        Validated against the official validate_submission.py ✓
 ```
 
-> **Note on diagram accuracy:** this reflects the finalized design. As implementation progresses, this diagram will be updated if any layer's internals change — see [Project Status](#project-status) below for what's built vs. designed.
+---
+
+## The Dashboard — Making the Ranking Explorable, Not Just Gradable
+
+`rank.py` and `hyperion_submission.csv` are what get graded — a CLI script and a CSV is the correct, sandbox-compatible artifact for Stage 3. But it isn't something a recruiter at Redrob would ever actually open and use, and a flat CSV makes the explainability this system is built around harder to *see* than it should be.
+
+**`dashboard/index.html`** is a single-file, no-backend interactive viewer over the exact same validated output — the real top-100, the real scores, the real reasoning — built so a non-technical reviewer can search, filter, and drill into *why* each candidate ranked where they did, live, instead of reading 100 rows of a CSV.
+
+Open it directly in any browser (zero install, zero server) or host it for free on GitHub Pages / Vercel. See `dashboard/DASHBOARD.md` for details.
 
 ---
 
 ## Why This Architecture, Specifically
 
-This is not the "biggest" system we could have built — it is deliberately shaped by Redrob's own constraints, and every design choice below maps to a specific line in their challenge spec.
+Every design choice below maps to a specific constraint or trap in Redrob's own challenge spec — none of it is incidental.
 
-**No hosted LLM calls during ranking.** The compute budget is 5 minutes wall-clock, 16 GB RAM, CPU-only, no network, for the full 100,000-candidate pool. An LLM-per-candidate pipeline cannot fit this budget — Redrob says so explicitly, because a system that can't run at this scale in production isn't a real solution to their actual problem. Every layer in Prism runs locally on CPU.
+**No hosted LLM calls during ranking.** The compute budget is 5 minutes wall-clock, 16 GB RAM, CPU-only, no network, for the full 100,000-candidate pool. Every layer in Prism runs locally; the actual measured total runtime on a real run is **~100–170 seconds** depending on hardware — comfortably under budget with real margin.
 
-**Rules alongside embeddings, not instead of them.** Semantic similarity alone is exactly the failure mode Redrob warns about — it would still rank a "Marketing Manager" with a buzzword-heavy skills list highly, because the words *are* semantically close to the JD. The structural disqualifier layer (Layer 3) exists specifically to catch what embedding similarity cannot.
+**TF-IDF + Truncated SVD instead of a sentence-transformer model — a deliberate tradeoff, not a downgrade.** A transformer model requires PyTorch and either bundled weights or a one-time download, both of which add real failure surface inside an unfamiliar sandboxed reproduction container with no network access. TF-IDF + Truncated SVD is classical Latent Semantic Analysis, with decades of information-retrieval literature behind it. Fit on this specific 100,000-candidate corpus, it captures the JD-specific semantic structure transparently — every dimension traces back to real vocabulary in this dataset, which is a more concrete defense than "the transformer's attention weights decided this."
 
-**Behavioral signals as a multiplier, not an afterthought.** Redrob's own documentation states that a perfect-on-paper candidate with a 5% recruiter response rate and six months of inactivity is, for hiring purposes, not actually available. Layer 4 encodes this directly rather than treating it as a minor tiebreaker.
+**Rules alongside embeddings, not instead of them.** Semantic similarity alone would still rank a buzzword-heavy non-engineering profile highly, because the words are semantically close to the JD. Layer 3 catches what embedding similarity cannot — measurably: **14,883** candidates flagged across the full dataset.
 
-**A hard honeypot gate, not a soft penalty.** Submissions with a honeypot rate above 10% in the top 100 are disqualified outright, regardless of ranking quality elsewhere. Layer 5 is built as a hard exclusion step for exactly this reason — there is no acceptable tradeoff here.
+**Behavioral signals as a multiplier, not an afterthought.** A perfect-on-paper candidate with a low recruiter response rate and months of inactivity is, for hiring purposes, not actually available. Layer 4 encodes this directly as a multiplicative factor bounded to [0.25, 1.0].
 
-**Reasoning generated from real sub-scores, not from a second LLM pass.** Stage 4 of the evaluation manually samples reasoning text and checks it against the candidate's actual profile for hallucination and rank-consistency. Generating reasoning straight from the same numbers that produced the rank is the only way to guarantee the explanation can't drift from the decision.
+**A hard honeypot gate, not a soft penalty.** Submissions with a honeypot rate above 10% in the top 100 are disqualified outright. Layer 5 is a hard pre-filter for exactly this reason. **54 honeypots detected** across the dataset, **0 honeypots in the final top-100** — a 0.00% rate.
 
----
+**Reasoning generated from real sub-scores, not a second LLM pass.** Building the explanation directly from the same numbers that produced the rank makes hallucination structurally impossible, not just unlikely.
 
-## Project Status
-
-> **Honesty note:** This README documents the full system design Team Hyperion has committed to. Sections below are marked according to actual build status as of each update — this project is being built in public, layer by layer, with real iteration history in the commit log.
-
-| Layer | Status | Owner |
-|---|---|---|
-| Layer 1 — JD Requirement Extraction | `[ FILL IN: Not Started / In Progress / Complete ]` | Swati Dubey |
-| Layer 2 — Semantic Fit Scorer | `[ FILL IN: Not Started / In Progress / Complete ]` | Nitanshu Tak |
-| Layer 3 — Structural Disqualifier Engine | `[ FILL IN: Not Started / In Progress / Complete ]` | Swati Dubey |
-| Layer 4 — Behavioral Trust Multiplier | `[ FILL IN: Not Started / In Progress / Complete ]` | Nitanshu Tak |
-| Layer 5 — Honeypot & Anomaly Detection | `[ FILL IN: Not Started / In Progress / Complete ]` | Swati Dubey |
-| Score Fusion & Ranking | `[ FILL IN: Not Started / In Progress / Complete ]` | Nitanshu Tak |
-| Explainability Engine | `[ FILL IN: Not Started / In Progress / Complete ]` | Nitanshu Tak |
-| Sandbox Deployment | `[ FILL IN: Not Started / In Progress / Complete ]` | Nitanshu Tak |
+**Tie-breaking matches the official validator exactly.** `validate_submission.py` requires that equal scores break by ascending `candidate_id`. `fusion/score_fusion.py`'s `assign_ranks()` sorts on `(-final_score, candidate_id)` for exactly this reason.
 
 ---
 
-## Results
+## Results — Measured on the Real Dataset
 
-> **`[ FILL IN — do not publish this section with placeholder numbers ]`**
-> This section must only contain numbers actually produced by running the pipeline end-to-end on the real `candidates.jsonl`. Suggested structure once real runs exist:
+| Metric | Value |
+|---|---|
+| Total pipeline runtime (full 100,000 candidates) | **~100–170 seconds**, hardware-dependent (of a 300-second budget) |
+| Peak memory usage | **~3 GB** (of a 16 GB budget) |
+| Candidates loaded | 100,000 |
+| Layer 3 — candidates flagged by at least one disqualifier rule | 14,883 (14.9%) |
+| Layer 5 — honeypots detected across full dataset | 54 |
+| Honeypot rate in final top-100 | **0.00%** (0 / 100) |
+| Official `validate_submission.py` result | **"Submission is valid."** |
+| Final top-100 score range | 0.3800 (rank 100) → 0.4796 (rank 1) |
 
-| Metric | Value | How Measured |
-|---|---|---|
-| `[ FILL IN: total runtime on full 100K pool ]` | `[ FILL IN ]` | `time python rank.py --candidates ./candidates.jsonl --out ./submission.csv` |
-| `[ FILL IN: peak memory usage ]` | `[ FILL IN ]` | `[ FILL IN: profiling tool used, e.g. memory_profiler ]` |
-| `[ FILL IN: honeypot rate in top 100 ]` | `[ FILL IN ]` | Manual cross-check against suspected honeypot patterns |
-| `[ FILL IN: disqualifier hits in candidate pool ]` | `[ FILL IN ]` | Count of candidates flagged by Layer 3 across full pool |
-
-**Sample reasoning output** — `[ FILL IN with 2–3 real generated reasoning strings from an actual top-100 run once available, e.g.: ]`
+**Real reasoning output, top of the actual run:**
 
 ```
-CAND_00XXXXX, rank 1: "[ Real generated reasoning string here ]"
-CAND_00XXXXX, rank 47: "[ Real generated reasoning string here ]"
+CAND_0077337, rank 1, score 0.4796:
+"7.0 years of experience, currently Staff Machine Learning Engineer at
+Paytm. Career history shows direct evidence of production embeddings-
+based retrieval, production vector DB / hybrid search experience,
+demonstrated Python systems experience, ranking evaluation framework
+experience, learning-to-rank modeling, HR-tech/marketplace background,
+distributed systems / inference optimization, and open-source AI/ML
+contributions. Behavioral signals (response rate, recent activity)
+indicate a highly engaged, available candidate."
 ```
 
 ---
 
 ## Repository Structure
 
-> **`[ FILL IN once the repo layout is finalized — update this tree to match the actual repo exactly before submission, since the Stage 3 reviewers will compare this against the real structure ]`**
-
 ```
 Prism-AI-Hiring-Intelligence-Platform/
 │
-├── data/
-│   ├── candidates.jsonl              [ FILL IN: gitignored or sample-only? ]
-│   ├── candidate_schema.json
-│   └── job_description.md
+├── layer1/                          JD Requirement Extraction — Swati Dubey
+│   ├── jd_requirements.py           get_jd_requirements() — structured JD object
+│   ├── jd_requirements.json         Same object, pre-exported to disk
+│   └── test_jd_requirements.py      5 tests, all passing
 │
-├── src/
-│   ├── jd_extraction.py              Layer 1 — Swati
-│   ├── semantic_scorer.py            Layer 2 — Nitanshu
-│   ├── disqualifier_engine.py        Layer 3 — Swati
-│   ├── trust_multiplier.py           Layer 4 — Nitanshu
-│   ├── honeypot_detector.py          Layer 5 — Swati
-│   ├── score_fusion.py               Score combination — Nitanshu
-│   ├── reasoning_generator.py        Explainability — Nitanshu
-│   └── rank.py                       Single entrypoint script
+├── layer2/                          Semantic Fit Scorer — Nitanshu Tak
+│   ├── semantic_scorer.py           run_semantic_scoring() — TF-IDF + SVD cosine similarity
+│   └── sample_candidates.json       Official 50-row test fixture
 │
-├── sandbox/
-│   └── [ FILL IN: HuggingFace Space / Streamlit app / notebook, per chosen platform ]
+├── layer3/                          Structural Disqualifier Pass — Swati Dubey
+│   ├── disqualifiers.py             run_structural_disqualifiers() — 6 rule detectors
+│   ├── jd_requirements.py           Shared dependency (consulting_firms list)
+│   ├── disqualifiers.md             Dev notes: bugs found/fixed, honest 0-fire reporting
+│   ├── test_disqualifiers.py        31 tests, all passing
+│   ├── benchmark.py                 Runtime/memory confirmation on full 100K
+│   ├── sample_candidates.json       Official 50-row test fixture
+│   └── layer3_output_full.csv       This layer's output, run on the full 100,000 candidates
 │
-├── tests/
-│   └── [ FILL IN once test suite exists ]
+├── layer4/                          Behavioral Trust Multiplier — Nitanshu Tak
+│   ├── trust_multiplier.py          run_trust_multiplier() — 4-signal multiplicative weighting
+│   └── sample_candidates.json       Official 50-row test fixture
 │
-├── submission.csv                    Final top-100 ranked output
-├── submission_metadata.yaml          Per official template
-├── requirements.txt
-└── README.md
+├── layer5/                          Honeypot & Anomaly Detection — Swati Dubey
+│   ├── honeypot_detection.py        run_honeypot_detection() + check_honeypot_rate_in_top_n()
+│   ├── honeypot_dev_notes.md        Full investigation: confirmed + rejected patterns
+│   ├── test_honeypot_detection.py   17 tests, all passing
+│   ├── benchmark.py                 Runtime/memory confirmation on full 100K
+│   ├── sample_candidates.json       Official 50-row test fixture
+│   └── layer5_output_full.csv       This layer's output, run on the full 100,000 candidates
+│
+├── fusion/                          Score Fusion & Explainability — Nitanshu Tak
+│   ├── score_fusion.py              fuse_and_rank() + assign_ranks() — official tie-break logic
+│   └── reasoning_generator.py       generate_reasoning_for_ranking() — grounded explanations
+│
+├── dashboard/                       Recruiter-facing dashboard — Nitanshu Tak
+│   ├── index.html                   Single-file interactive viewer over the real top-100 output
+│   └── DASHBOARD.md                 What it is, how to regenerate it, honest scope notes
+│
+├── export_dashboard_data.py         Generates the dashboard's per-candidate breakdown JSON
+├── rank.py                          Single pipeline entrypoint (see Local Setup below)
+├── validate_submission.py           Official format validator (shipped with this repo)
+├── hyperion_submission.csv          Final top-100 ranked output — validated, ready to submit
+├── WINDOWS_SETUP.md                 Windows-specific setup notes (multi-Python-install fix)
+├── prism-logo.png
+└── README.md                        This file
 ```
 
 ---
@@ -253,139 +260,79 @@ Prism-AI-Hiring-Intelligence-Platform/
 
 | Layer | Technology | Why |
 |---|---|---|
-| Language | Python 3.11 | Required by spec; mature ML/NLP ecosystem |
-| Semantic Embeddings | sentence-transformers (`all-MiniLM-L6-v2`) | Small, fast, fully local — no GPU, no network call, no API key |
-| Data Processing | Pandas / NumPy | Vectorized operations across 100,000 records within the 5-minute budget |
-| Rule Engine | Python (`src/disqualifier_engine.py`, `src/honeypot_detector.py`) | Deterministic, explainable, auditable in the Stage 5 interview |
-| Score Fusion | `[ FILL IN: e.g. weighted linear combination, documented formula ]` | `[ FILL IN: rationale once finalized ]` |
-| Output Format | CSV (UTF-8) | Per official submission spec |
-| Sandbox Host | `[ FILL IN: HuggingFace Spaces / Streamlit Cloud / Replit / Colab / Docker ]` | `[ FILL IN once chosen ]` |
-| **Total Cost** | **₹0** | Entirely local/open-source models, no paid API usage during ranking |
-
----
-
-## Compute Constraints (Hard Requirements)
-
-Every constraint below comes directly from Redrob's official `submission_spec.md` and is treated as non-negotiable, not aspirational:
-
-| Constraint | Limit | Status |
-|---|---|---|
-| Total runtime | ≤ 5 minutes wall-clock | `[ FILL IN: measured value ]` |
-| Memory | ≤ 16 GB RAM | `[ FILL IN: measured value ]` |
-| Compute | CPU only — no GPU | ✅ By design (no GPU dependency anywhere in the pipeline) |
-| Network | Disabled during ranking — no OpenAI/Anthropic/Cohere/Gemini/hosted LLM calls | ✅ By design (all models run locally) |
-| Disk | ≤ 5 GB intermediate state | `[ FILL IN: measured value ]` |
+| Language | Python 3.12 / 3.13 | Required by spec; mature ML/data ecosystem |
+| Semantic Embeddings | scikit-learn `TfidfVectorizer` + `TruncatedSVD` (LSA) | CPU-only, zero GPU/network dependency, fully local, classical and defensible |
+| Data Processing | Pandas / NumPy | Vectorized operations across 100,000 records, streamed I/O for low memory footprint |
+| Rule Engine | Pure Python (`disqualifiers.py`, `honeypot_detection.py`) | Deterministic, explainable, auditable line-by-line |
+| Score Fusion | Weighted multiplicative combination, fully documented formula | Multiplicative by design — see Score Fusion docstring for full rationale |
+| Output Format | CSV (UTF-8) | Per official submission spec; validated against the real `validate_submission.py` |
+| **Total Cost** | **₹0** | Entirely local, open-source tooling — no paid API usage anywhere in the pipeline |
 
 ---
 
 ## Local Setup
 
-> **`[ FILL IN once Layer 1 and the entrypoint script exist — placeholder structure below should be updated to match real commands exactly ]`**
-
 ```bash
 git clone https://github.com/swaskiee/Prism-AI-Hiring-Intelligence-Platform.git
 cd Prism-AI-Hiring-Intelligence-Platform
-
-python -m venv venv
-
-# Windows
-venv\Scripts\activate
-
-# macOS/Linux
-source venv/bin/activate
-
-pip install -r requirements.txt
+pip install pandas numpy scikit-learn scipy
 ```
+
+**Windows users:** if you have multiple Python versions installed, see `WINDOWS_SETUP.md` — using `py -0` to check installed versions and `py -3.13` (or your version) consistently for every command avoids the most common setup issue.
 
 ### Running the Full Ranking Pipeline
 
 ```bash
-python src/rank.py --candidates ./data/candidates.jsonl --out ./submission.csv
+python rank.py --candidates path/to/candidates.jsonl --out hyperion_submission.csv
 ```
-
-`[ FILL IN: expected console output once the pipeline runs end-to-end, e.g. progress indicators per layer, final runtime printout ]`
 
 ### Validating the Submission
 
 ```bash
-python validate_submission.py submission.csv
+python validate_submission.py hyperion_submission.csv
+# → Submission is valid.
 ```
 
----
+### Running Each Layer Standalone
 
-## Methodology Deep Dive
+```bash
+python layer1/jd_requirements.py
+python layer2/semantic_scorer.py
+python layer3/disqualifiers.py
+python layer4/trust_multiplier.py
+python layer5/honeypot_detection.py
+python fusion/score_fusion.py
+python fusion/reasoning_generator.py
+```
 
-### Layer 1 — JD Requirement Extraction
+### Running Tests
 
-The job description for Redrob's Senior AI Engineer role is decomposed into a structured object rather than used as free text. This captures:
-
-- **Must-have requirements**: production embeddings-based retrieval experience, production vector DB/hybrid search experience, strong Python, ranking-evaluation framework experience.
-- **Nice-to-have signals**: LLM fine-tuning, learning-to-rank models, HR-tech background, distributed systems experience, open-source contributions.
-- **Hard disqualifiers**: pure-research-only background, recent-only LLM-wrapper experience with no pre-LLM production history, stale architects with 18+ months away from hands-on code, title-chasing career patterns, framework-tutorial-only GitHub profiles, consulting-only careers with no product-company experience (with Redrob's own explicit exception for current consulting employees with prior product experience), computer-vision/speech/robotics specialists without NLP exposure, and closed-source-only careers with no external validation.
-- **The "ideal candidate" rubric**: 6–8 years total experience with 4–5 years in applied ML/AI at product companies, has shipped an end-to-end ranking/search/recommendation system at meaningful scale, holds defensible technical opinions on retrieval and evaluation strategy, located in or willing to relocate to Pune/Noida, and shows active engagement signal on the Redrob platform.
-
-`[ FILL IN: link to the actual extraction script output / JSON artifact once built ]`
-
-### Layer 2 — Semantic Fit Scoring
-
-`[ FILL IN: final embedding strategy once implemented — e.g. which candidate fields are concatenated before embedding, how JD requirement embeddings are aggregated, exact similarity formula used ]`
-
-### Layer 3 — Structural Disqualifier Engine
-
-Five independent rule-based checks run across the full candidate pool, each producing a flag and a documented rationale:
-
-1. **Title sanity check** — fuzzy-matches `current_title` and historical titles against engineering/ML role patterns, catching candidates whose actual function is unrelated to the role despite a buzzword-heavy skill list.
-2. **Consulting-only career detector** — flags candidates whose entire career history sits within named consulting firms, with the explicit carve-out for current consulting employees who have prior product-company experience elsewhere in their history.
-3. **Title-chaser / job-hop detector** — looks for a sustained pattern of ~18-month tenures paired with consistently escalating seniority titles across most of a candidate's career history, not a single short stint.
-4. **Stale-architect detector** — flags long stretches in pure architecture/leadership titles with no recent hands-on technical signal.
-5. **CV/speech/robotics-without-NLP detector** — flags candidates whose domain focus is computer vision, speech, or robotics with no NLP/IR/retrieval exposure anywhere in their history.
-
-`[ FILL IN: actual flag rates across the 100K pool once run, e.g. "X% of candidates flagged by at least one rule" ]`
-
-### Layer 4 — Behavioral Trust Multiplier
-
-`[ FILL IN: exact multiplier formula once finalized — which of the 23 redrob_signals fields are used, how they're weighted and combined, and the reasoning for that weighting ]`
-
-### Layer 5 — Honeypot & Anomaly Detection
-
-This layer treats internal data contradictions as detectable, not just "suspicious-feeling." Specifically checked:
-
-- **Impossible tenure** — experience or company tenure that is mathematically inconsistent with the candidate's own stated dates/durations elsewhere in their record.
-- **Impossible proficiency** — skills listed as "expert" with near-zero `duration_months`, or an implausible number of "expert" skills relative to total years of experience.
-
-Detected honeypots are **hard-excluded** before the top-100 cut is made — not down-weighted — per Redrob's explicit disqualification rule for honeypot rates above 10%.
-
-`[ FILL IN: actual detection count and any manually-verified false-positive checking once run on the real dataset ]`
-
-### Score Fusion
-
-`[ FILL IN: exact final formula combining semantic_fit_score, disqualifier_penalty, trust_multiplier, with honeypot_flag as a hard pre-filter — document the formula here once locked, since this is the first thing the Stage 5 interview will ask about ]`
-
-### Explainability Engine
-
-Each of the top 100 candidates receives a reasoning string built directly from their own computed values — years of experience, the specific JD requirement that matched, named skills, and relevant signal values such as notice period or recruiter response rate. No reasoning is templated, and no claim is generated that doesn't trace back to an actual field in that candidate's record.
+```bash
+cd layer1 && python -m pytest test_jd_requirements.py -v
+cd ../layer3 && python -m pytest test_disqualifiers.py -v
+cd ../layer5 && python -m pytest test_honeypot_detection.py -v
+```
 
 ---
 
 ## Evaluation Awareness
 
-This project is built with Redrob's full evaluation pipeline in mind, not just the final score:
-
 | Stage | What It Checks | How Prism Addresses It |
 |---|---|---|
-| 1. Format validation | CSV structure, exactly 100 rows, valid candidate IDs | Validated locally with `validate_submission.py` before every submission |
-| 2. Scoring | NDCG@10 / NDCG@50 / MAP / P@10 against hidden ground truth | Architecture optimized for precision at the top of the ranking, where weight is highest |
-| 3. Code reproduction + honeypot check | Runs ranking step in a sandboxed 5-min/16GB/CPU/no-network container; honeypot rate >10% disqualifies | Entire pipeline designed within these limits from day one; Layer 5 is a hard gate, not a soft penalty |
-| 4. Manual review | Reasoning quality, hallucination checks, rank-consistency, git history authenticity | Explainability Engine grounds every reasoning string in real data; commits made incrementally through real development, not as a single dump |
-| 5. Defend-your-work interview | Live defense of architecture and design choices | Every layer's design choice is documented here with its rationale, for exactly this conversation |
+| 1. Format validation | CSV structure, exactly 100 rows, valid IDs | Confirmed locally with the official `validate_submission.py` — passes |
+| 2. Scoring | NDCG/MAP/P@10 against hidden ground truth | Architecture optimized for precision at the top via multiplicative fusion |
+| 3. Code reproduction + honeypot check | Sandboxed 5-min/16GB/CPU/no-network run; >10% honeypot rate disqualifies | Measured well under both limits; honeypot rate confirmed at 0.00% |
+| 4. Manual review | Reasoning quality, hallucination, rank-consistency, git history authenticity | Reasoning is field-grounded by construction; real incremental git history with documented bug-fix commits |
+| 5. Defend-your-work interview | Live defense of architecture | Every design choice is documented here and in per-layer dev-notes files specifically for this conversation |
 
 ---
 
-## Dataset
+## Beyond This Challenge — Why This Generalizes
 
-Candidate pool and job description provided directly by Redrob AI / Hack2skill as part of the official India Runs hackathon bundle (100,000 synthetic-but-realistic candidate profiles, 23 behavioral signal fields per candidate, ~80 deliberately embedded honeypot profiles). Not redistributed in this repository in full — see `data/` for schema and sample references only.
-
-`[ FILL IN: confirm final decision on whether the full candidates.jsonl is committed, gitignored, or fetched via script, and document that decision here ]`
+- **Layer 1 is the only JD-specific code.** Swap in a different job description, and Layers 2–5 run unchanged.
+- **The structural disqualifier and honeypot logic are role-agnostic by construction** — title-mismatch detection, career-pattern sanity checks, and the two confirmed honeypot mechanisms apply to any technical role.
+- **Zero-cost, zero-dependency-risk by design.** No paid API, no GPU, no hosted model — realistically deployable by any team with a laptop CPU.
+- **The dashboard is a template, not a one-off.** Point `export_dashboard_data.py` at a different ranking run and the same interactive viewer works for a different JD, a different candidate pool, a different team.
 
 ---
 
@@ -395,18 +342,9 @@ Candidate pool and job description provided directly by Redrob AI / Hack2skill a
 **B.Tech CSE (Cloud Computing & Virtualization Technology) · UPES Dehradun**
 SDE @ SapMen C.
 
-*Contributions: Semantic scoring engine · behavioral signal weighting · score fusion logic · explainability engine · system architecture · sandbox deployment*
-
 [![GitHub](https://img.shields.io/badge/GitHub-Nitanshu715-181717?style=flat-square&logo=github)](https://github.com/Nitanshu715)
 
----
-
 ### Swati Dubey
-
-*Contributions: JD requirement extraction · structural disqualifier engine · honeypot and anomaly detection · feature engineering across the full candidate pool*
-
-
-[![GitHub](https://img.shields.io/badge/GitHub-swaskiee-181717?style=flat-square&logo=github)](https://github.com/swaskiee)
 
 ---
 
@@ -414,7 +352,6 @@ SDE @ SapMen C.
 
 **India Runs · Hack2skill × Redrob AI**
 Track 1 — The Data & AI Challenge: Intelligent Candidate Discovery
-Submission deadline: **2 July 2026**
 
 Built specifically against Redrob's own stated goal for this role: *"we'd rather see 10 great matches than 1000 maybes."*
 
@@ -431,6 +368,6 @@ MIT License — built for the India Runs hackathon; open for review, reproductio
 **PRISM** · Built by Team Hyperion · 2026
 *Ranking that reads the resume, not just the keywords.*
 
-`Layer 5 Architecture` · `CPU-Only` · `₹0 Inference Cost`
+`~100-170s / 100K candidates` · `~3GB peak` · `0% honeypot rate` · `₹0 inference cost`
 
 </div>
