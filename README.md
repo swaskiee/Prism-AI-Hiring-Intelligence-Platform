@@ -345,6 +345,10 @@ SDE @ SapMen C.
 [![GitHub](https://img.shields.io/badge/GitHub-Nitanshu715-181717?style=flat-square&logo=github)](https://github.com/Nitanshu715)
 
 ### Swati Dubey
+**BCA Computer Science and Management · Dr. Bhim Rao Ambedkar University, Agra**
+
+
+[![GitHub](https://img.shields.io/badge/GitHub-swaskiee-181717?style=flat-square&logo=github)](https://github.com/swaskiee)
 
 ---
 
