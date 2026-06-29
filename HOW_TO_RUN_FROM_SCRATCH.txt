@@ -1,0 +1,235 @@
+PRISM — RUNNING THIS PROJECT FROM A COMPLETELY EMPTY COMPUTER
+================================================================
+This file assumes you have NOTHING installed. Just Windows, and nothing
+else. Every command below is explained: what it does, and why you need it.
+Run them in order, top to bottom.
+
+
+STEP 0 — WHAT YOU'RE ABOUT TO INSTALL, IN PLAIN WORDS
+------------------------------------------------------
+- Git        = the tool that downloads ("clones") a GitHub project onto
+               your computer, and later lets you upload ("push") changes.
+- Python     = the programming language this project is written in.
+               Nothing in this project will run without it.
+- pip        = comes bundled with Python. It downloads and installs
+               the specific code libraries (pandas, numpy, etc.) that
+               this project depends on.
+
+You do NOT need to install: Node.js, Docker, a database, or anything
+related to AI models. This project deliberately runs on nothing but
+plain Python.
+
+
+STEP 1 — INSTALL GIT
+---------------------
+Download from: https://git-scm.com/download/win
+Run the installer, click Next through every screen using the defaults
+(the defaults are fine, you don't need to change anything).
+
+Check it worked — open Command Prompt (press Windows key, type "cmd",
+press Enter) and type:
+
+    git --version
+
+WHY: this just asks Git to print its own version number. If you see a
+version number (e.g. "git version 2.45.0"), it's installed correctly.
+If you see "'git' is not recognized," close and reopen Command Prompt
+(installers sometimes need a fresh terminal window to be detected), and
+if it still fails, restart your computer once and try again.
+
+
+STEP 2 — INSTALL PYTHON
+-------------------------
+Download from: https://www.python.org/downloads/
+Run the installer. ON THE VERY FIRST SCREEN, before clicking anything
+else, TICK THE BOX that says "Add python.exe to PATH" at the bottom.
+This is the single most commonly missed step — if you skip it, none of
+the commands below will work no matter how correctly you type them.
+Then click "Install Now."
+
+Check it worked — open a NEW Command Prompt window (close any old ones
+first) and type:
+
+    python --version
+
+WHY: same idea as git --version — just confirms Python is installed and
+discoverable. You should see something like "Python 3.12.4". If you
+instead see an error, the PATH checkbox from above was likely missed —
+re-run the installer and make sure that box is ticked this time.
+
+NOTE: if you ever end up with MULTIPLE Pythons installed (this can
+happen if you install it more than once, or it came bundled with
+something else), use:
+
+    py -0
+
+WHY: this lists every Python version Windows knows about. If it shows
+more than one, always use the SAME specific version (e.g. "py -3.13")
+for every single command below, for both installing and running — mixing
+versions is the #1 cause of "module not found" errors even right after
+installing that exact module.
+
+
+STEP 3 — DOWNLOAD ("CLONE") THE PROJECT
+------------------------------------------
+Pick a folder where you want the project to live, e.g. open Command
+Prompt and type:
+
+    cd D:\
+
+WHY: "cd" means "change directory" — this moves your terminal's current
+location to the D: drive (use whichever drive/folder you actually want).
+
+Then:
+
+    git clone https://github.com/swaskiee/Prism-AI-Hiring-Intelligence-Platform.git
+
+WHY: this downloads the entire project — every file, every folder, the
+full history — from GitHub onto your computer, into a new folder named
+"Prism-AI-Hiring-Intelligence-Platform".
+
+Then move into that new folder:
+
+    cd Prism-AI-Hiring-Intelligence-Platform
+
+WHY: every command from here on assumes you're standing inside this
+folder. If a command says "file not found," the first thing to check is
+whether you're actually inside this folder — type "dir" (lists files in
+the current folder) to confirm you see things like rank.py and README.md.
+
+
+STEP 4 — INSTALL THE PYTHON LIBRARIES THIS PROJECT NEEDS
+------------------------------------------------------------
+    pip install pandas numpy scikit-learn scipy
+
+WHY: this project's code is written using four code libraries that don't
+come built into Python by default:
+  - pandas       handles the candidate data as structured tables
+  - numpy        fast number-crunching, used under the hood by the others
+  - scikit-learn does the semantic similarity scoring (Layer 2)
+  - scipy        a math library scikit-learn itself depends on
+"pip install" downloads each one from the internet (one time only) and
+sets it up so Python can use it.
+
+If you have multiple Python versions (see Step 2's note), run this
+instead, replacing 3.13 with your actual version:
+
+    py -3.13 -m pip install pandas numpy scikit-learn scipy
+
+
+STEP 5 — GET THE ACTUAL CANDIDATE DATA FILE
+------------------------------------------------
+The repository on GitHub does NOT include the real candidates.jsonl file
+(it's too large to store there). You need to download it separately from
+the Google Drive link on the official India Runs hackathon submission
+page (Track 1 → "Please refer to the Data Sets here").
+
+Download it, unzip it if it arrives zipped, and note down exactly where
+you saved candidates.jsonl on your computer — you'll need that exact
+path in the next step. For example, it might be at:
+
+    D:\some-folder\candidates.jsonl
+
+WHY this matters: the most common error at this stage is typing a path
+that doesn't actually exist on your computer. If you're not sure of the
+exact path, find the file in File Explorer, hold Shift and right-click
+it, and choose "Copy as path" — this copies the exact, correctly-formatted
+path (already in quotes) so you can paste it directly into the next
+command instead of typing it by hand.
+
+
+STEP 6 — RUN THE FULL RANKING PIPELINE
+------------------------------------------
+    python rank.py --candidates "PASTE_YOUR_REAL_PATH_HERE\candidates.jsonl" --out hyperion_submission.csv
+
+(If you have multiple Pythons: py -3.13 rank.py --candidates "..." --out hyperion_submission.csv)
+
+WHY: this single command runs the entire five-layer system — reading all
+100,000 candidates, scoring them, applying every rule, and writing the
+final top-100 ranked list to a new file called hyperion_submission.csv,
+right inside this same folder.
+
+This takes roughly 1.5–3 minutes depending on your computer. You'll see
+progress printed step by step ([1/9], [2/9], etc.) — this is normal, let
+it finish on its own.
+
+
+STEP 7 — CHECK THE OUTPUT IS VALID
+---------------------------------------
+    python validate_submission.py hyperion_submission.csv
+
+WHY: this runs the hackathon's own official checker against the file you
+just generated, confirming it's in the exact format the judges expect
+(right number of rows, right columns, correctly ranked). You're looking
+for it to print:
+
+    Submission is valid.
+
+If it prints anything else, something about the run went wrong — copy
+the exact message and ask for help with that specific text.
+
+
+STEP 8 — (OPTIONAL) RUN THE AUTOMATED TESTS
+------------------------------------------------
+This step is optional — it doesn't produce anything you need to submit,
+but it's a good way to confirm your copy of the code is working exactly
+as intended.
+
+    cd layer1
+    python -m pytest test_jd_requirements.py -v
+    cd ..\layer3
+    python -m pytest test_disqualifiers.py -v
+    cd ..\layer5
+    python -m pytest test_honeypot_detection.py -v
+    cd ..
+
+WHY: "pytest" is a tool that runs small, pre-written checks against the
+code (53 of them, across these three files) and tells you whether each
+one passes or fails. If you don't have pytest yet, install it first:
+
+    pip install pytest
+
+You should see "53 passed" combined across the three runs, with no
+failures.
+
+
+STEP 9 — (OPTIONAL) VIEW THE INTERACTIVE DASHBOARD
+-------------------------------------------------------
+No command needed — just open this file by double-clicking it in File
+Explorer:
+
+    dashboard\index.html
+
+WHY: this opens directly in your web browser (Chrome, Edge, etc.) with
+no server or installation required. It shows the same ranked top-100
+results in a searchable, visual format.
+
+
+STEP 10 — UPLOADING CHANGES BACK TO GITHUB (only if you edited something)
+-------------------------------------------------------------------------------
+If you changed any code and want to save those changes back to GitHub:
+
+    git add -A
+
+WHY: tells Git "include every changed file in what I'm about to save."
+
+    git commit -m "Describe what you changed here"
+
+WHY: "commit" takes a snapshot of those changes, labeled with your
+description, saved into the project's history (still only on your
+computer at this point).
+
+    git push origin main
+
+WHY: uploads that snapshot from your computer up to GitHub, so it shows
+up on the actual github.com page for everyone else too.
+
+
+QUICK TROUBLESHOOTING INDEX
+-------------------------------
+"'python' is not recognized"          -> Step 2's PATH checkbox was missed; reinstall Python and tick it
+"'git' is not recognized"             -> reopen terminal, or restart computer once
+"No module named 'pandas'" etc.       -> you installed with one Python and ran with another; use "py -0" and pick ONE version for everything
+"FileNotFoundError" on candidates    -> the --candidates path doesn't match where the file actually is; use Shift+right-click -> Copy as path
+"Permission denied" on git push      -> you need to be added as a collaborator on the GitHub repo, or need to set up a Personal Access Token
+MemoryError while loading candidates -> make sure you pulled the latest version of the project (this was already fixed; "git pull" if your copy is older)
